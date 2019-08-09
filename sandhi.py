@@ -10,6 +10,7 @@ class Sandhi:
 		self.softening = json.load(rules)
 
 	def affix(self, stem, ending, cl, parse):
+		# this needs to be cleaned up, will only work for the present.
 		a = ending.split("-")
 		b = a[0].replace("{", "")
 		c = a[1].replace("}", "")
