@@ -10,10 +10,24 @@ class Sandhi:
 		self.softening = json.load(rules)
 
 	def affix(self, stem, ending, cl, parse):
-		# this needs to be cleaned up, will only work for the present.
+		suffix = self.__process_suffix(ending, cl)
+		stem = self.__process_stem(stem, cl, suffix)
+		form = stem + suffix
+		form = form.replace("0", "")
+		return form
+
+	def get_cons(self, stem):
+		ends = "kgxcʒskzgtdszstzdpbvmlrnsnznsl"
+		if stem[-2:] in ends:
+			return stem[-2:]
+		elif stem[-1:] in ends:
+			return stem[-1:]
+
+	def __process_suffix(self, ending, cl):
+		ending = ending[1:-1]
 		a = ending.split("-")
-		b = a[0].replace("{", "")
-		c = a[1].replace("}", "")
+		b = a[0]
+		c = a[1]
 		if "/" in b:
 			b = b.split("/")
 			d = b[0]
@@ -28,30 +42,19 @@ class Sandhi:
 		else:
 			suffix = b + c
 			print(b + "-" + c + "}")
-		# print(suffix)
+		return suffix
+
+	def __process_stem(self, stem, cl, suffix):
 		if stem[-1:] in "ǫęěaeiouьъ":
 			stem = stem[:-1]
 		if cl == "ova+":
 			stem = stem[:-2] + "uj"
 		if cl == "Ca+":
 			f  = self.get_cons(stem)
-			stem = stem[:-len(f)] + self.soften(f)
+			stem = stem[:-len(f)] + self.softening[f]
 		if stem[-1:] == "j" and suffix[0] == "e":
 			stem = stem[:-1]
 		if cl in "i+ě+" and suffix == "0ǫ":
 			f = self.get_cons(stem)
-			stem = stem[:-len(f)] + self.soften(f)
-		# print(stem)
-		form = stem + suffix
-		form = form.replace("0", "")
-		return form
-
-	def soften(self, cons):
-		return self.softening[cons]
-
-	def get_cons(self, stem):
-		ends = "k-g-x-c-ʒ-sk-zg-t-d-s-z-st-zd-p-b-v-m-l-r-n-sn-zn-sl"
-		if stem[-2:] in ends:
-			return stem[-2:]
-		elif stem[-1:] in ends:
-			return stem[-1:]
+			stem = stem[:-len(f)] + self.softening[f]
+		return stem
