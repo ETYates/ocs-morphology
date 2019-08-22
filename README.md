@@ -26,3 +26,6 @@ info is the surface form of each parse.
 slyšati p1s slyšǫ
 
 These are the lemma, parse, and generated form, respectively.
+The parse p1s means "present first singular."
+
+Most of the inflexion work is done in inflector.py.
