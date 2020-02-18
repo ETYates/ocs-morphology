@@ -10,7 +10,6 @@ range of uses. However, to test the output of the program, run lunt_test.py.
 The output will appear as such:
 
 {slyš-a+0-ǫ}
-
 slyšati p1s slyšǫ
 ...
 
